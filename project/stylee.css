@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    width: 80%;
+    height: 100vh;
+    background-image: url('./bg.jpg');
+    background-size: cover; 
+    background-size: cover;
+    background-position: center;
+    padding: 10px 8%;
+}
+.container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    width: 370px;
+    box-sizing: border-box;
+    font-weight: bold;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    background: rgb(15, 191, 176);
+    margin: auto;
+    margin-left: -10%;
+    margin-top: 150px;
+}
+.form-group{
+    margin-bottom: 30px ;
+}

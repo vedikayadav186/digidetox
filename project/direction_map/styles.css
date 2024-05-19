@@ -1,0 +1,76 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    width: calc(100%);
+    height: calc(100%);
+}
+
+.mapbox-directions-instructions {
+    overflow: auto !important;
+}
+
+div#geocoder-search {
+    width: 25em;
+}
+
+.marker {
+    font-size: 3em;
+    color: #bb0000;
+    cursor: pointer;
+}
+
+.mapboxgl-popup {
+    max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}
+.map-details {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+.map-details h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.map-details p {
+    margin-bottom: 5px;
+}
+.map-details-box {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.map-details-box h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.map-details-box p {
+    margin-bottom: 5px;
+}

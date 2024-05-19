@@ -1,0 +1,158 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+header {
+  background-color: #61a998;
+  padding: 10px 20px;
+  margin-bottom: 5px;
+}
+.profile-info {
+  display: flex;
+  align-items: center;
+}
+
+
+.profile-info span {
+  font-weight: bold;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 10px;
+}
+
+img:hover {
+  background-color: #eee;
+}
+img
+{
+  height:144.47;
+  width:180.85
+}
+.ewaste {
+  width: 1550px; 
+  height: 400px;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-right: 20px;
+  width: 20px;
+  height: 20px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+h2 {
+  margin-bottom: 20px; /* Spacing between title and boxes */
+  text-align: center;
+  padding: 10px 200px;
+  font-size: 60px;
+  color:#00AF92;
+}
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%; /* Adjust width as needed */
+  margin: 0 auto;
+}
+
+.box {
+  width: calc(50% - 100px); /* Adjust width based on desired spacing */
+  height: 300px;
+  margin: 20px;
+  border-radius: 5px;
+  box-shadow: 4px 4px 4px 4px gray;
+  transition: transform 0.7s ease-in-out;
+}
+.red {
+  background-color: f0eaea;
+}
+.red h5{
+  text-align: right;
+  padding: 20px;
+  font-size: 20px;
+  font-family:'Arial Narrow', Arial, sans-serif; 
+  color: #000000;
+}
+.red p{
+  text-align: right;
+  padding: 20px;
+  font-size: 15px;
+  color: #0e8061;
+  text-wrap: balance;
+}
+
+.green {
+  background: linear-gradient(135deg, #00AF92, #f0eaea);
+}
+
+.blue {
+  background: linear-gradient(135deg, #008D99, #f0eaea);
+}
+
+.yellow {
+  background: linear-gradient(135deg, #006983, #f0eaea);
+}
+
+.orange {
+  background: linear-gradient(135deg, #00C39B, #f0eaea);
+}
+
+.purple {
+  background: linear-gradient(135deg, #47EB12, #f0eaea);
+}
+
+.box:hover {
+  transform: scale(1.1); /* Increase size on hover by 10% */
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.chatbot-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #3498db; /* Background color */
+  color: white; /* Text color */
+  font-weight: bold;
+  text-align: center;
+  display: flex; /* Enables centering content */
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.2s ease-in-out; /* Smooth hover effect */
+  border-radius: 50%; /* Creates a circular icon */
+}
+
+.chatbot-icon a {
+  text-decoration: none; /* Removes underline from link */
+}
+
+.chatbot-icon:hover {
+  transform: scale(1.1);  /* Change hover background color (optional) */
+}
+.chatbot-icon img {
+  width: 60px; 
+  height: 60px;
+  border-radius: 70px;
+}
