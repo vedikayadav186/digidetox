@@ -16,6 +16,66 @@ if (!isset($_SESSION["user"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <style>
+        /* Sidebar styles */
+        /* Sidebar styles */
+        /* Sidebar styles */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 93px;
+            /* Adjust according to your navbar height */
+            right: -250px;
+            /* Hidden by default */
+            background: linear-gradient(135deg, #9b8fbc, #5b548a);
+            /* Nature-inspired green gradient */
+            overflow-x: hidden;
+            transition: 0.3s;
+            z-index: 1000;
+            /* Ensure it appears above other content */
+            padding-top: 60px;
+            color: #ffffff;
+            /* White text color for contrast */
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 15px;
+            color: #ffffff;
+            /* White text color for visibility */
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #d9f99d;
+            /* Light green on hover */
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 1px;
+            font-size: 36px;
+            color: #ffffff;
+            /* White text color */
+        }
+
+        .sidebar-open {
+            right: 0;
+        }
+
+        .main-content {
+            transition: margin-right 0.3s;
+            padding: 16px;
+        }
+
+        .main-content.shifted {
+            margin-right: 250px;
+        }
+
+        /* sidebzr css */
         #news {
             width: 50%;
             /* Adjust width as needed */
@@ -131,11 +191,120 @@ if (!isset($_SESSION["user"])) {
                 <a href="logout.php" class="button logout-button">
                     <i class="fa-solid fa-right-from-bracket"></i> Logout
                 </a>
+                &nbsp;
+                <!-- Profile Button -->
+                <a href="#" class="button profile-button" onclick="toggleSidebar()">
+                    <i class="fa-solid fa-user"></i> Open Sidebar
+                </a>
+
+                <!-- Sidebar -->
+                <div id="mySidebar" class="sidebar">
+                    <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">×</a>
+                    <?php
+
+                    $output = '';
+
+                    // Check if the form has been submitted
+
+                    // Include resource data
+                    include 'resources.php';
+
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "";
+                    $dbname = "e-waste"; // Use your actual database name
+
+                    // Create connection
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+
+                    // Check connection
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                    }
+
+                    $viewUserId = $_SESSION["userId"];
+
+                    $sql = "SELECT userId, name, etype FROM users WHERE userId = ?";
+                    $stmt = $conn->prepare($sql);
+                    if (!$stmt) {
+                        die("Prepare failed: " . $conn->error);
+                    }
+
+                    $stmt->bind_param("i", $viewUserId);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    $total_ewaste_diverted = 0;
+                    $resources_saved = [
+                        'rare_metals' => [],
+                        'energy_saved' => 0,
+                    ];
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $userId = htmlspecialchars($row["userId"]);
+                            $userName = htmlspecialchars($row["name"]);
+                            $ewaste_types = explode(',', htmlspecialchars($row["etype"]));
+
+                            foreach ($ewaste_types as $ewaste_type) {
+                                $ewaste_type = trim($ewaste_type);
+
+                                if (isset($resourceData[$ewaste_type])) {
+                                    $ewaste_data = $resourceData[$ewaste_type];
+                                    $total_ewaste_diverted += $ewaste_data['ewaste_diverted'];
+
+                                    if (!empty($ewaste_data['rare_metals'])) {
+                                        $resources_saved['rare_metals'] = array_merge($resources_saved['rare_metals'], explode(', ', $ewaste_data['rare_metals']));
+                                    }
+
+                                    if (isset($ewaste_data['energy_saved'])) {
+                                        $resources_saved['energy_saved'] += (int)str_replace(' kWh', '', $ewaste_data['energy_saved']);
+                                    }
+                                }
+                            }
+                        }
+                        $output .= "<h3>User Details</h3>";
+                        
+                        $output .= "<p>User ID: " . $userId . "</p>";
+                        $output .= "<p>Name: " . $userName . "</p>";
+                        $output .="<h3>E-Waste Savings Viewer</h3>";
+                        $output .= "<h5>Total Resources Saved</h5>";
+                        $output .= "<p>Total E-Waste Diverted: " . $total_ewaste_diverted . " kg</p>";
+                        echo "\r\n";
+                        $output .= "<h5>Aggregated Resources Saved:</h5>";
+                        $output .= "<ul>";
+                        $output .= "<li>Rare Metals Saved: " . implode(', ', array_unique($resources_saved['rare_metals'])) . "</li>";
+                        $output .= "<li>Total Energy Saved: " . $resources_saved['energy_saved'] . " kWh</li>";
+                        $output .= "<li>Total Rare Metals Saved: " . count(array_unique($resources_saved['rare_metals'])) . "</li>";
+                        $output .= "</ul>";
+
+                        // Showing the total amount of resources saved
+
+
+
+
+
+                        $conn->close();
+                    }
+
+                    ?><div class="container">
+                        
+                        <br>
+                        <div id="result"><?php echo $output; ?></div>
+                    </div>
+                </div>
+
             </div>
 
         </nav>
     </header>
     <div class="container">
+
+
+
+
+        <!-- close here -->
+
         <div class="controls">
 
 
@@ -250,14 +419,14 @@ if (!isset($_SESSION["user"])) {
             <h2>News/Articles</h2>
             <div class="news-box">
                 <article class="news-container">
-                <p>Extract gold and other metals from e-waste</p>
-                <p>To extract valuable metals from discarded computer motherboards, researchers have developed a gold-absorbing material made from old milk. An aerogel made from old milk can extract highly pure gold nuggets from discarded computer motherboards. Discarded electronics, known as e-waste often contain large amounts of gold and other heavy metals. Scientists have come up with methods to recover the valuable metals, but these processes often rely on synthetic chemicals that can damage the environment.</p>
-                <p>
-                    DigiDetOX Launches Nationwide E-Waste Collection Drive
-<br>
-<br>
-          In a pioneering move towards sustainable e-waste management, DigiDetOX, a leading name in digital detoxification solutions, has announced the launch of a nationwide e-waste collection drive. This initiative aims to address the pressing environmental challenges posed by electronic waste while promoting responsible disposal practices among consumers.
-                    <!-- <button class="read-more-btn">Read More</button> -->
+                    <p>Extract gold and other metals from e-waste</p>
+                    <p>To extract valuable metals from discarded computer motherboards, researchers have developed a gold-absorbing material made from old milk. An aerogel made from old milk can extract highly pure gold nuggets from discarded computer motherboards. Discarded electronics, known as e-waste often contain large amounts of gold and other heavy metals. Scientists have come up with methods to recover the valuable metals, but these processes often rely on synthetic chemicals that can damage the environment.</p>
+                    <p>
+                        DigiDetOX Launches Nationwide E-Waste Collection Drive
+                        <br>
+                        <br>
+                        In a pioneering move towards sustainable e-waste management, DigiDetOX, a leading name in digital detoxification solutions, has announced the launch of a nationwide e-waste collection drive. This initiative aims to address the pressing environmental challenges posed by electronic waste while promoting responsible disposal practices among consumers.
+                        <!-- <button class="read-more-btn">Read More</button> -->
                 </article>
             </div>
         </section>
@@ -265,8 +434,21 @@ if (!isset($_SESSION["user"])) {
             <img src="./ui/plastic.webp" alt="..." class="img-thumbnail">
         </div>
     </main>
-<br>
+    <br>
     <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("mySidebar");
+            var mainContent = document.getElementById("main");
+
+            // Toggle sidebar open/close
+            if (sidebar.style.right === "0px") {
+                sidebar.style.right = "-250px";
+                mainContent.classList.remove("shifted");
+            } else {
+                sidebar.style.right = "0px";
+                mainContent.classList.add("shifted");
+            }
+        }
         const cards = document.querySelectorAll('.card');
 
         cards.forEach(card => {

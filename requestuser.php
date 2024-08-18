@@ -122,7 +122,7 @@ session_start();
         <h1>Pickup Requests</h1>
         <table>
             <tr>
-                <th>ID</th>
+                <th>Form NO.</th>
                 <th>Name</th>
                 <th>Start Date</th>
                 <th>End Date</th>
