@@ -265,7 +265,7 @@ if (!isset($_SESSION["user"])) {
             <img src="./ui/plastic.webp" alt="..." class="img-thumbnail">
         </div>
     </main>
-
+<br>
     <script>
         const cards = document.querySelectorAll('.card');
 
